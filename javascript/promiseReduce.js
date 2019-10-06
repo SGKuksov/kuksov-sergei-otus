@@ -17,20 +17,32 @@ const fn2 = () => new Promise(resolve => {
 	setTimeout(() => resolve(2), 1000);
 });
 
-const asyncFunctions = [fn1, fn2];
+const fn3 = () => new Promise(resolve => {
+	console.log('fn3');
+	setTimeout(() => resolve(3), 2000);
+});
+
+const asyncFunctions = [fn1, fn2, fn3];
 
 const reduce = (memo, value) => {
 	console.log('reduce');
 	return memo * value;
 };
 
-const promiseReduce = () => {
-	return Promise.resolve(2);
+const promiseReduce = async (asyncFunctions, reduce, initialValue) => {
+	let result = initialValue;
+
+	for (const fn of asyncFunctions) {
+	 	result = reduce(result, await fn());
+	}
+
+	return Promise.resolve(result);
 };
 
-promiseReduce(asyncFunctions, reduce, 1).then(result => {
-	console.log(result);
-	console.assert(result === 2);
-}).catch(e => {
-  console.log(e);
-});
+promiseReduce(asyncFunctions, reduce, 1)
+	.then(result => {
+		console.log(result);
+		console.assert(result === 6);
+	})
+	.catch(console.error);
+	
