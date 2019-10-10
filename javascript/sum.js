@@ -5,18 +5,18 @@
 
 function sum(item) {
   if (item === undefined) {
-    return item
-  } else if (!item && item !== 0 && !isNaN(item)) { 
-    return 0
+    return item;
+  } else if (!item && item !== 0 && !isNaN(item)) {
+    return 0;
   }
 
   let result = item;
 
   function func(iter) {
     if (isNaN(iter) && iter !== undefined) {
-      iter = iter.toString()
+      iter = iter.toString();
     } else if (!iter && iter !== 0) {
-      return result
+      return result;
     }
 
     result += iter;
@@ -34,4 +34,6 @@ console.assert(sum(1)() === 1);
 console.assert(sum() === undefined);
 console.assert(sum('A-a-a-a-a-a-a')() === 'A-a-a-a-a-a-a');
 console.assert(isNaN(sum(NaN)()));
-console.assert(sum(NaN)(NaN)(NaN)(NaN)(NaN)(NaN)(NaN)(NaN)(', Batman!')() === 'NaNNaNNaNNaNNaNNaNNaNNaN, Batman!');
+console.assert(
+  sum(NaN)(NaN)(NaN)(NaN)(NaN)(NaN)(NaN)(NaN)(', Batman!')() === 'NaNNaNNaNNaNNaNNaNNaNNaN, Batman!'
+);
