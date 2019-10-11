@@ -14,7 +14,8 @@ const getPath = element => {
   if (element.tagName === 'body') return 'html > body';
   const b = document.querySelector('html > body');
 
-  
+  // tagName
+  // body > p:nth-child(4) > b
 
   return result;
 };
