@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script type="module">
+    /*
+      С помощью Custom Elements создать приложение для показа дерева с помощью компонентов my-tree и my-leaf. Компоненты должны получать данные о структуре поддерева от родительского элемента. Используйте Shadow DOM при отрисовке компонент. Можно также использовать для реализации Lit-Element, Lit-HTML или Polymer.
+
+      Пример структуры
+
+      ```
+        {
+          "id": 1,
+          "items": [{
+            "id": 2,
+            "items": [{ "id": 3 }]
+          }]
+        }
+      ```
+    */
+    import { html, render } from 'https://unpkg.com/lit-html?module';
+
+    const myJson = {
+      "id": 0,
+      "items": [
+        {
+          "id": 1,
+          "items": [{ "id": 5 }]
+        },
+        {
+          "id": 2,
+          "items": [
+            { "id": 5 },
+            {
+              "id": 3,
+              "items": [{ "id": 5 }, { "id": 5 }]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "items": [{ "id": 5 }, { "id": 5 }, { "id": 5 }]
+        },
+        {
+          "id": 4,
+          "items": []
+        },
+        {
+          "id": 4,
+          "items": []
+        },
+        {
+          "id": 3,
+          "items": [{ "id": 5 }, { "id": 5 }, { "id": 5 }]
+        },
+      ]
+    };
+
+    const myTree = (id, entry) => html`<div data-id="${id}" data-name="my-tree">${entry}</div>`;
+    const myLeaf = (id) => html`<div data-id="${id}" data-name="my-leaf"></div>`;
+
+    const printTree = (data) => {
+      const iter = (counter) => {
+        if (Array.isArray(counter) && counter.length) {
+          const arr = [];
+
+          counter.forEach(elem => {
+            if ('items' in elem && elem.items.length) {
+              const inn = [];
+
+              elem.items.forEach(item => {
+                inn.push(myTree(elem.id, iter(elem.items)));
+              });
+
+              arr.push(inn);
+            } else {
+              arr.push(myLeaf(elem.id))
+            }
+          });
+
+          return arr
+        } else {
+          return;
+        }
+      };
+
+      return iter(data.items);
+    }
+
+    // if (!('items' in counter) || !counter.items.length) {
+    //   return myLeaf(counter.id)
+    // }
+
+    // if (counter.items.length) {
+    //   const arr = [];
+
+    //   counter.items.forEach(item => {
+    //     arr.push(myTree(counter.id, iter(counter.items)));
+    //   });
+
+    //   return arr;
+    // }
+
+    console.log(printTree(myJson));
+
+    render(myTree(myJson.id, printTree(myJson)), document.body);
+  </script>
+</body>
+
+</html>
