@@ -12,7 +12,6 @@ const getPath = element => {
 
   if (element.tagName === 'html') return 'html';
   if (element.tagName === 'body') return 'html > body';
-  const b = document.querySelector('html > body');
 
   const getName = el => {
     return el.nodeName.toLowerCase();
@@ -39,8 +38,8 @@ const getPath = element => {
   };
 
   const recursiveGetPath = (el, acc) => {
-    const siblings = getSiblings(el);
-    console.log(siblings);
+    // const siblings = getSiblings(el);
+    // console.log(siblings);
 
     if (getName(el) === 'html') {
       return `html > ${acc}`;
