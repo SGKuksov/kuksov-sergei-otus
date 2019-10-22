@@ -9,6 +9,7 @@ const getRequest = () => {
     {
       hostname,
       port,
+      timeout: 10000,
       path: url,
       agent: false // Create a new agent just for this one request
     },
@@ -25,4 +26,4 @@ const getGroupRequest = async n => {
   }
 };
 
-getGroupRequest(10);
+getGroupRequest(1000);
